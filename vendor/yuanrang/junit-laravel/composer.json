@@ -1,0 +1,17 @@
+{
+    "name": "yuanrang\/junit-laravel",
+    "description": "A simplified version of the laravel framework unit test",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zengyilin",
+            "email": "jason_tse55@163.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Yuanrang\\JunitLaravel\\": "src"
+        }
+    }
+}

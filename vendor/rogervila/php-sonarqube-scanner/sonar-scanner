@@ -1,0 +1,73 @@
+#!/usr/bin/env php
+<?php
+
+if (!ini_get('date.timezone')) {
+    ini_set('date.timezone', 'UTC');
+}
+
+$file = getcwd() . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+if (file_exists($file)) {
+    define('COMPOSER_AUTOLOAD_FILE', $file);
+}
+
+if (!defined('COMPOSER_AUTOLOAD_FILE')) {
+    fwrite(
+        STDERR,
+        'You need to set up the project dependencies using Composer:' . PHP_EOL . PHP_EOL .
+            '    composer install' . PHP_EOL . PHP_EOL .
+            'You can learn all about Composer on https://getcomposer.org/.' . PHP_EOL
+    );
+
+    die(1);
+}
+
+$file = getcwd() . DIRECTORY_SEPARATOR . 'composer.json';
+
+if (file_exists($file)) {
+    define('COMPOSER_CONFIG_FILE', $file);
+}
+
+unset($file);
+
+require COMPOSER_AUTOLOAD_FILE;
+
+$app = new \Sonar\Scanner();
+
+$options = new \Sonar\Options(getcwd());
+
+$git = new \DanielJHarvey\PHPGitBranch\GitBranch(getcwd(), new \DanielJHarvey\FileWrapper\FileWrapper);
+
+if (is_string($git->branch)) {
+    $options->setSourceManagerBranch($git->branch);
+}
+
+unset($git);
+
+if (defined('COMPOSER_CONFIG_FILE') && file_exists(COMPOSER_CONFIG_FILE)) {
+    $content = json_decode(file_get_contents(COMPOSER_CONFIG_FILE), true);
+
+    if (is_array($content)) {
+        $options->setComposerConfiguration($content);
+    } else {
+        fwrite(
+            STDERR,
+            'WARNING! project\'s composer.json file could not be parsed' . PHP_EOL
+        );
+    }
+
+    unset($content);
+}
+
+$options->parse($argv);
+
+try {
+    $app->run($options);
+} catch (\Exception $e) {
+    fwrite(
+        STDERR,
+        'Unexpected error.' . PHP_EOL . 'Please, check the project issues on https://github.com/rogervila/php-sonarqube-scanner/issues' . PHP_EOL
+    );
+
+    die(1);
+}

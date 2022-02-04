@@ -1,0 +1,24 @@
+{
+    "name": "weber\/junit-laravel",
+    "description": "A simplified version of the laravel framework unit test",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "webertan",
+            "email": "webertan17@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Weber\\JunitLaravel\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Weber\\JunitLaravel\\JunitServiceProvide"
+            ]
+        }
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "name": "rogervila/php-sonarqube-scanner",
+    "description": "Run SonarQube Scanner with composer",
+    "keywords": [
+        "sonarqube scanner php",
+        "sonar scanner php"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roger Vilà",
+            "email": "rogervila@me.com"
+        }
+    ],
+    "require": {
+        "ext-zip": "*",
+        "crysalead/dir": "^2.0",
+        "danieljharvey/php-git-branch": "^1.1",
+        "tivie/php-os-detector": "^1.1"
+    },
+    "require-dev": {
+        "creativestyle/app-http-server-mock": "^1.0",
+        "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
+        "symfony/process": "^4.1 || ^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sonar\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Sonar\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "bin": [
+        "sonar-scanner"
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
